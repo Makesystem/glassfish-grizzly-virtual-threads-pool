@@ -63,14 +63,17 @@ public class VirtualThreadsExecutorService extends AbstractExecutorService // TO
 //        }
 //
 //    };
-
 //    @Override
 //    public MonitoringConfig<ThreadPoolProbe> getMonitoringConfig() {
 //        return monitoringConfig;
 //    }
     @Override
     public void configure(ServiceLocator habitat, NetworkListener networkListener, ThreadPool configuration) {
-        threadFactory.name = networkListener.getName();
+        if (networkListener != null && networkListener.getName() != null) {
+            threadFactory.name = networkListener.getName();
+        } else if (configuration != null && configuration.getName() != null) {
+            threadFactory.name = configuration.getName();
+        }
     }
 
     private static class VirtualThreadFactory implements ThreadFactory {
