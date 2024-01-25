@@ -23,7 +23,7 @@
     <parent>
         <groupId>org.glassfish.main</groupId>
         <artifactId>glassfish-nucleus-parent</artifactId>
-        <version>7.0.9-SNAPSHOT</version>
+        <version>8.0.0-M1</version>
     </parent>
 
     <artifactId>grizzly-virtual-threads-pool</artifactId>
@@ -53,7 +53,7 @@
         <dependency>
             <groupId>org.glassfish.main.grizzly</groupId>
             <artifactId>grizzly-config</artifactId>
-            <version>7.0.9-SNAPSHOT</version>
+            <version>8.0.0-M1</version>
         </dependency>
     </dependencies>
 </project>
