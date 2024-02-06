@@ -9,7 +9,7 @@ public class VirtualThreadFactory implements ThreadFactory {
     String name = "virtual-thread";
 
     @Override
-    public Thread newThread(Runnable r) {
-        return Thread.ofVirtual().name(name + "(" + threadIndex++ + ")").unstarted(r);
+    public Thread newThread(Runnable runnable) {
+        return Thread.ofVirtual().name(name + "(" + threadIndex++ + ")").unstarted(runnable);
     }
 }
