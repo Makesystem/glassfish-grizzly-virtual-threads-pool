@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
+
 import org.glassfish.grizzly.config.ConfigAwareElement;
 import org.glassfish.grizzly.config.dom.NetworkListener;
 import org.glassfish.grizzly.config.dom.ThreadPool;
@@ -19,11 +19,11 @@ import org.glassfish.hk2.api.ServiceLocator;
  *
  * @author Ondro Mihalyi
  */
-public class VirtualThreadsExecutorService extends AbstractExecutorService // TODO        implements MonitoringAware<ThreadPoolProbe>
+public class VirtualThreadsExecutorService extends AbstractExecutorService
         implements ConfigAwareElement<ThreadPool> {
 
-    VirtualThreadFactory threadFactory = new VirtualThreadFactory();
-    ExecutorService pool = Executors.newThreadPerTaskExecutor(threadFactory);
+    final VirtualThreadFactory threadFactory = new VirtualThreadFactory();
+    final ExecutorService pool = Executors.newThreadPerTaskExecutor(threadFactory);
 
     @Override
     public void shutdown() {
@@ -68,23 +68,11 @@ public class VirtualThreadsExecutorService extends AbstractExecutorService // TO
 //        return monitoringConfig;
 //    }
     @Override
-    public void configure(ServiceLocator habitat, NetworkListener networkListener, ThreadPool configuration) {
+    public void configure(final ServiceLocator habitat, final NetworkListener networkListener, final ThreadPool configuration) {
         if (networkListener != null && networkListener.getName() != null) {
             threadFactory.name = networkListener.getName();
         } else if (configuration != null && configuration.getName() != null) {
             threadFactory.name = configuration.getName();
-        }
-    }
-
-    private static class VirtualThreadFactory implements ThreadFactory {
-
-        int threadIndex = 0;
-
-        String name = "virtual-thread";
-
-        @Override
-        public Thread newThread(Runnable r) {
-            return Thread.ofVirtual().name(name + "(" + threadIndex++ + ")").unstarted(r);
         }
     }
 
